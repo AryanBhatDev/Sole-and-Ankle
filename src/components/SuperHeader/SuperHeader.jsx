@@ -32,6 +32,7 @@ const Wrapper = styled.div`
 const MarketingMessage = styled.span`
   color: ${COLORS.white};
   font-size: ${14 / 16}rem;
+  margin-right: auto;
   font-family: Raleway, "sans-serif";
 `;
 

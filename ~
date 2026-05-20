@@ -1,0 +1,13 @@
+superheader done, my attempt
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# Date:      Wed May 20 12:33:30 2026 +0530
+#
+# On branch main
+# Changes to be committed:
+#	modified:   src/components/Header/Header.jsx
+#	modified:   src/components/SearchInput/SearchInput.jsx
+#	modified:   src/components/SuperHeader/SuperHeader.jsx
+#
