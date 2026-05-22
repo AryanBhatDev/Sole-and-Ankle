@@ -1,19 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import { COLORS, WEIGHTS } from '../../constants';
-import { formatPrice, pluralize, isNewShoe } from '../../utils';
-import Spacer from '../Spacer';
+import { COLORS, WEIGHTS } from "../../constants";
+import { formatPrice, isNewShoe, pluralize } from "../../utils";
+import Spacer from "../Spacer";
 
-const ShoeCard = ({
-  slug,
-  name,
-  imageSrc,
-  price,
-  salePrice,
-  releaseDate,
-  numOfColors,
-}) => {
+const ShoeCard = ({ slug, name, imageSrc, price, salePrice, releaseDate, numOfColors }) => {
   // There are 3 variants possible, based on the props:
   //   - new-release
   //   - on-sale
@@ -31,19 +22,33 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
 
+  const TagName = variant === "on-sale" ? "Sale" : "Just Released!";
+
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+          <Tag
+            style={{
+              "--background-color": variant === "on-sale" ? COLORS.primary : COLORS.secondary,
+            }}
+          >
+            {TagName}
+          </Tag>
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          {variant === "on-sale" ? (
+            <PreviousPrice>{formatPrice(price)}</PreviousPrice>
+          ) : (
+            <Price>{formatPrice(price)}</Price>
+          )}
         </Row>
         <Row>
-          <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
       </Wrapper>
     </Link>
@@ -55,16 +60,37 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  flex: 1;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const Image = styled.img``;
+const Tag = styled.div`
+  position: absolute;
+  top: 12px;
+  right: -4px;
+  padding: 7px 9px 9px 11px;
+  border-radius: 2px;
+  font-weight: 700;
+  font-size: ${14 / 16}rem;
+  height: 2rem;
+  color: ${COLORS.white};
+  background-color: var(--background-color);
+`;
+
+const Image = styled.img`
+  width: 100%;
+  border-radius: 16px 16px 4px 4px;
+`;
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
+  color: ${COLORS.gray[900]};
 `;
 
 const Name = styled.h3`
@@ -73,6 +99,11 @@ const Name = styled.h3`
 `;
 
 const Price = styled.span``;
+
+const PreviousPrice = styled(Price)`
+  color: ${COLORS.gray[700]};
+  text-decoration: line-through;
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
